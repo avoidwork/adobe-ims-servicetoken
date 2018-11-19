@@ -1,0 +1,32 @@
+{
+  "name": "adobe-ims-servicetoken",
+  "version": "1.0.0",
+  "description": "Adobe IMS Service Token lifecycle management",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/avoidwork/adobe-ims-servicetoken.git"
+  },
+  "keywords": [
+    "Adobe",
+    "IMS",
+    "service",
+    "token",
+    "refresh",
+    "lifecycle",
+    "management"
+  ],
+  "author": "Jason Mulligan <jason.mulligan@avoidwork.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "form-data": "^2.3.3",
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-eslint": "^21.0.0"
+  }
+}
