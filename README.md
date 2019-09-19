@@ -1,5 +1,5 @@
 # adobe-ims-servicetoken
-Load into your node.js application to easily manage Adobe IMS service tokens.
+Load into your node.js application to easily manage Adobe IMS service tokens. Multiple clients and/or grant types are supported with 1.1.0!
 
 ### Configuration
 #### url
