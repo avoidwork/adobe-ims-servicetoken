@@ -9,6 +9,7 @@ function clone (arg) {
 
 async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_type = 'authorization_code', client_id = '', client_secret = '', code = ''} = {}) {
   const key = hash128(`${url}|${client_id}|${grant_type}`);
+  let result;
 
   if (tokens.has(key) === false) {
     const form = new FormData();
@@ -36,6 +37,7 @@ async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_t
       const data = await res.json();
 
       tokens.set(key, data.access_token);
+      result = clone(data.access_token);
 
       if (data.expires_in !== void 0) {
         setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
@@ -43,9 +45,11 @@ async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_t
     } else {
       throw new Error(res.statusText);
     }
+  } else {
+    result = clone(tokens.get(key));
   }
 
-  return clone(tokens.get(key));
+  return result;
 }
 
 module.exports = token;
