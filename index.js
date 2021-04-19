@@ -29,13 +29,20 @@ async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_t
     } catch (err) {
       res = {
         ok: false,
-        statusText: err.message || err
+        statusText: err.message || err,
+        json: async () => {
+          return {
+            error: res.statusText,
+            error_description: err.message
+          };
+        },
+        text: async () => err.message || err
       };
     }
 
-    if (res.ok) {
-      const data = await res.json();
+    const data = await res.json();
 
+    if (res.ok) {
       tokens.set(key, data.access_token);
       result = clone(data.access_token);
 
@@ -43,7 +50,7 @@ async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_t
         setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
       }
     } else {
-      throw new Error(res.statusText);
+      throw new Error(`[${res.status}] ${data.error}: ${data.error_description}`);
     }
   } else {
     result = clone(tokens.get(key));
