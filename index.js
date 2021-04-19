@@ -7,7 +7,7 @@ function clone (arg) {
   return JSON.parse(JSON.stringify(arg));
 }
 
-async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_type = 'authorization_code', client_id = '', client_secret = '', code = ''} = {}) {
+async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_type = 'authorization_code', client_id = '', client_secret = '', code = '', jwt_token = ''} = {}) {
   const key = hash128(`${url}|${client_id}|${grant_type}`);
   let result;
 
@@ -15,10 +15,20 @@ async function token ({url = 'https://ims-na1.adobelogin.com/ims/token', grant_t
     const form = new FormData();
     let res;
 
-    form.append('grant_type', grant_type);
+    if (grant_type.length > 0) {
+      form.append('grant_type', grant_type);
+    }
+
     form.append('client_id', client_id);
     form.append('client_secret', client_secret);
-    form.append('code', code);
+
+    if (code.length > 0) {
+      form.append('code', code);
+    }
+
+    if (jwt_token.length > 0) {
+      form.append('jwt_token', jwt_token);
+    }
 
     try {
       res = await fetch(url, {
