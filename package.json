@@ -1,9 +1,9 @@
 {
   "name": "adobe-ims-servicetoken",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Adobe IMS Service Token lifecycle management",
   "source": "src/ims.js",
-  "main": "dist/adobe-ims-servicetoken.cjs.cjs",
+  "main": "dist/adobe-ims-servicetoken.cjs",
   "module": "dist/adobe-ims-servicetoken.esm.js",
   "type": "module",
   "sourceType": "module",
