@@ -22,9 +22,9 @@ JWT for Access Token exchange
 
 ### Example
 ```javascript
-const ims = require('adobe-ims-servicetoken');
+import {ims} from 'adobe-ims-servicetoken';
 
-async function token () {
+export async function token () {
   let result;
   
   try {
