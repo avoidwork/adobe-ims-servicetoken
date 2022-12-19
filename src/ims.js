@@ -1,4 +1,3 @@
-import FormData from "form-data";
 import murmurHash3 from "murmurhash3js";
 
 const hash128 = murmurHash3.x64.hash128,
@@ -38,7 +37,6 @@ async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: form.getHeaders(),
 				body: form
 			});
 		} catch (err) {

@@ -3,9 +3,9 @@
  *
  * @copyright 2022 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 2.0.2
+ * @version 2.0.3
  */
-import FormData from'form-data';import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
+import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
 	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg));
 
@@ -42,7 +42,6 @@ async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: form.getHeaders(),
 				body: form
 			});
 		} catch (err) {

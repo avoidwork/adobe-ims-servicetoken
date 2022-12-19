@@ -3,16 +3,14 @@
  *
  * @copyright 2022 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 2.0.2
+ * @version 2.0.3
  */
 'use strict';
 
-var FormData = require('form-data');
 var murmurHash3 = require('murmurhash3js');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-var FormData__default = /*#__PURE__*/_interopDefaultLegacy(FormData);
 var murmurHash3__default = /*#__PURE__*/_interopDefaultLegacy(murmurHash3);
 
 const hash128 = murmurHash3__default["default"].x64.hash128,
@@ -31,7 +29,7 @@ async function token ({
 	let result;
 
 	if (tokens.has(key) === false) {
-		const form = new FormData__default["default"]();
+		const form = new FormData();
 		let res;
 
 		if (grant_type.length > 0) {
@@ -52,7 +50,6 @@ async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: form.getHeaders(),
 				body: form
 			});
 		} catch (err) {
