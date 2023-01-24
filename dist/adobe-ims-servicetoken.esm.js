@@ -1,9 +1,9 @@
 /**
  * adobe-ims-servicetoken
  *
- * @copyright 2022 Jason Mulligan <jason.mulligan@avoidwork.com>
+ * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 2.0.3
+ * @version 3.0.0
  */
 import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
