@@ -3,9 +3,15 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 2.0.4
+ * @version 2.0.5
  */
-import FormDataImport from'form-data';import fetchImport from'node-fetch';import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
+'use strict';
+
+var FormDataImport = require('form-data');
+var fetchImport = require('node-fetch');
+var murmurHash3 = require('murmurhash3js');
+
+const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
 	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg)),
 	FormDataFacade = typeof FormData !== "undefined" ? FormData : FormDataImport,
@@ -80,4 +86,4 @@ async function token ({
 	return result;
 }
 
-module.exports = token;
+exports.token = token;
