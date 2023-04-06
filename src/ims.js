@@ -1,13 +1,12 @@
-import {FormData as FormDataImport} from "form-data";
-import {fetch as fetchImport} from "node-fetch";
+import FormDataImport from "form-data";
+import fetchImport from "node-fetch";
 import murmurHash3 from "murmurhash3js";
-
-const FormDataFacade = typeof FormData === "undefined" ? FormDataImport : FormData;
-const fetchFacade = typeof fetch === "undefined" ? fetchImport : fetch;
 
 const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
-	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg));
+	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg)),
+	FormDataFacade = typeof FormData !== "undefined" ? FormData : FormDataImport,
+	fetchFacade = typeof fetch !== "undefined" ? fetch : fetchImport;
 
 async function token ({
 	url = "https://ims-na1.adobelogin.com/ims/token",
