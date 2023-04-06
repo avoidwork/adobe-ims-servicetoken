@@ -8,7 +8,7 @@ const hash128 = murmurHash3.x64.hash128,
 	FormDataFacade = typeof FormData !== "undefined" ? FormData : FormDataImport,
 	fetchFacade = typeof fetch !== "undefined" ? fetch : fetchImport;
 
-async function token ({
+export async function token ({
 	url = "https://ims-na1.adobelogin.com/ims/token",
 	grant_type = "authorization_code",
 	client_id = "",
@@ -76,5 +76,3 @@ async function token ({
 
 	return result;
 }
-
-module.exports = token;
