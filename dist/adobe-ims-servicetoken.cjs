@@ -1,23 +1,21 @@
 /**
  * adobe-ims-servicetoken
  *
- * @copyright 2022 Jason Mulligan <jason.mulligan@avoidwork.com>
+ * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
  * @version 2.0.2
  */
 'use strict';
 
-var FormData = require('form-data');
+var FormDataImport = require('form-data');
+var fetchImport = require('node-fetch');
 var murmurHash3 = require('murmurhash3js');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var FormData__default = /*#__PURE__*/_interopDefaultLegacy(FormData);
-var murmurHash3__default = /*#__PURE__*/_interopDefaultLegacy(murmurHash3);
-
-const hash128 = murmurHash3__default["default"].x64.hash128,
+const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
-	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg));
+	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg)),
+	FormDataFacade = typeof FormData !== "undefined" ? FormData : FormDataImport,
+	fetchFacade = typeof fetch !== "undefined" ? fetch : fetchImport;
 
 async function token ({
 	url = "https://ims-na1.adobelogin.com/ims/token",
@@ -31,7 +29,7 @@ async function token ({
 	let result;
 
 	if (tokens.has(key) === false) {
-		const form = new FormData__default["default"]();
+		const form = new FormDataFacade();
 		let res;
 
 		if (grant_type.length > 0) {
@@ -50,7 +48,7 @@ async function token ({
 		}
 
 		try {
-			res = await fetch(url, {
+			res = await fetchFacade(url, {
 				method: "POST",
 				headers: form.getHeaders(),
 				body: form
