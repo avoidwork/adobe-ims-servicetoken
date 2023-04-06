@@ -25,16 +25,16 @@ export default [
 		output: [
 			{
 				...cjOutBase,
-				file: `dist/${pkg.name}.cjs`
+				file: `dist/${pkg.name}.js`
 			},
 			{
 				...esmOutBase,
-				file: `dist/${pkg.name}.esm.js`
+				file: `dist/${pkg.name}.mjs`
 			},
 			{
 				...esmOutBase,
 				...minOutBase,
-				file: `dist/${pkg.name}.esm.min.js`
+				file: `dist/${pkg.name}.min.mjs`
 			}
 		]
 	}

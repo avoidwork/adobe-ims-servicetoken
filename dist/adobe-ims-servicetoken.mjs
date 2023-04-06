@@ -3,7 +3,7 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 2.0.3
+ * @version 2.0.4
  */
 import FormDataImport from'form-data';import fetchImport from'node-fetch';import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
