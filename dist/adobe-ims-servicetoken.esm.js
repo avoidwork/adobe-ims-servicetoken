@@ -1,11 +1,14 @@
 /**
  * adobe-ims-servicetoken
  *
- * @copyright 2022 Jason Mulligan <jason.mulligan@avoidwork.com>
+ * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
  * @version 2.0.2
  */
-import FormData from'form-data';import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
+import {FormData as FormData$1}from'form-data';import {fetch as fetch$1}from'node-fetch';import murmurHash3 from'murmurhash3js';const FormDataFacade = typeof FormData === "undefined" ? FormData$1 : FormData;
+const fetchFacade = typeof fetch === "undefined" ? fetch$1 : fetch;
+
+const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
 	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg));
 
@@ -21,7 +24,7 @@ async function token ({
 	let result;
 
 	if (tokens.has(key) === false) {
-		const form = new FormData();
+		const form = new FormDataFacade();
 		let res;
 
 		if (grant_type.length > 0) {
@@ -40,7 +43,7 @@ async function token ({
 		}
 
 		try {
-			res = await fetch(url, {
+			res = await fetchFacade(url, {
 				method: "POST",
 				headers: form.getHeaders(),
 				body: form

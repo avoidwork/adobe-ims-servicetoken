@@ -1,5 +1,9 @@
-import FormData from "form-data";
+import {FormData as FormDataImport} from "form-data";
+import {fetch as fetchImport} from "node-fetch";
 import murmurHash3 from "murmurhash3js";
+
+const FormDataFacade = typeof FormData === "undefined" ? FormDataImport : FormData;
+const fetchFacade = typeof fetch === "undefined" ? fetchImport : fetch;
 
 const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map(),
@@ -17,7 +21,7 @@ async function token ({
 	let result;
 
 	if (tokens.has(key) === false) {
-		const form = new FormData();
+		const form = new FormDataFacade();
 		let res;
 
 		if (grant_type.length > 0) {
@@ -36,7 +40,7 @@ async function token ({
 		}
 
 		try {
-			res = await fetch(url, {
+			res = await fetchFacade(url, {
 				method: "POST",
 				headers: form.getHeaders(),
 				body: form

@@ -9,7 +9,9 @@
 		"ecmaVersion": 2020,
 		"sourceType": "module"
 	},
-	"globals": {},
+	"globals": {
+		"FormData": true
+	},
 	"rules": {
 		"arrow-parens": [2, "as-needed"],
 		"arrow-spacing": [2, {"before": true, "after": true}],
