@@ -3,19 +3,14 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 2.0.5
+ * @version 3.0.0
  */
 'use strict';
 
-var FormDataImport = require('form-data');
-var fetchImport = require('node-fetch');
 var murmurHash3 = require('murmurhash3js');
 
 const hash128 = murmurHash3.x64.hash128,
-	tokens = new Map(),
-	clone = typeof structuredClone === "function" ? structuredClone : arg => JSON.parse(JSON.stringify(arg)),
-	FormDataFacade = typeof FormData !== "undefined" ? FormData : FormDataImport,
-	fetchFacade = typeof fetch !== "undefined" ? fetch : fetchImport;
+	tokens = new Map();
 
 async function token ({
 	url = "https://ims-na1.adobelogin.com/ims/token",
@@ -29,7 +24,7 @@ async function token ({
 	let result;
 
 	if (tokens.has(key) === false) {
-		const form = new FormDataFacade();
+		const form = new FormData();
 		let res;
 
 		if (grant_type.length > 0) {
@@ -48,7 +43,7 @@ async function token ({
 		}
 
 		try {
-			res = await fetchFacade(url, {
+			res = await fetch(url, {
 				method: "POST",
 				headers: form.getHeaders(),
 				body: form
@@ -71,7 +66,7 @@ async function token ({
 
 		if (res.ok) {
 			tokens.set(key, data.access_token);
-			result = clone(data.access_token);
+			result = structuredClone(data.access_token);
 
 			if (data.expires_in !== void 0) {
 				setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
@@ -80,7 +75,7 @@ async function token ({
 			throw new Error(`[${res.status}] ${data.error}: ${data.error_description}`);
 		}
 	} else {
-		result = clone(tokens.get(key));
+		result = structuredClone(tokens.get(key));
 	}
 
 	return result;
