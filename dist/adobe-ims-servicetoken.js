@@ -5,7 +5,7 @@
  * @license BSD-3-Clause
  * @version 3.0.2
  */
-import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
+import murmurHash3 from'murmurhash3js';import FormData from'form-data';const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map();
 
 async function token ({
@@ -41,7 +41,7 @@ async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: { "content-type": "multipart/form-data" },
+				headers: form.getHeaders(),
 				body: form
 			});
 		} catch (err) {

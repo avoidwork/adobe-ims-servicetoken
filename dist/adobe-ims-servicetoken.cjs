@@ -8,6 +8,7 @@
 'use strict';
 
 var murmurHash3 = require('murmurhash3js');
+var FormData = require('form-data');
 
 const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map();
@@ -45,7 +46,7 @@ async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: { "content-type": "multipart/form-data" },
+				headers: form.getHeaders(),
 				body: form
 			});
 		} catch (err) {
