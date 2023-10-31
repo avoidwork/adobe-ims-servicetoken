@@ -3,7 +3,7 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.0
+ * @version 3.0.1
  */
 import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map();
@@ -41,7 +41,7 @@ async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: form.getHeaders(),
+				headers: { "content-type": "multipart/form-data" },
 				body: form
 			});
 		} catch (err) {

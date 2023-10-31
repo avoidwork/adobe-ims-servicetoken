@@ -36,7 +36,7 @@ export async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: form.getHeaders(),
+				headers: { "content-type": "multipart/form-data" },
 				body: form
 			});
 		} catch (err) {

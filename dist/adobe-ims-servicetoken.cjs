@@ -3,7 +3,7 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.0
+ * @version 3.0.1
  */
 'use strict';
 
@@ -45,7 +45,7 @@ async function token ({
 		try {
 			res = await fetch(url, {
 				method: "POST",
-				headers: form.getHeaders(),
+				headers: { "content-type": "multipart/form-data" },
 				body: form
 			});
 		} catch (err) {
