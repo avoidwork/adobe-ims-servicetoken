@@ -53,7 +53,7 @@ export async function token ({
 			};
 		}
 
-		const data = await res.json();
+		const data = res.ok ? await res.clone().json() : await res.clone().text();
 
 		if (res.ok) {
 			tokens.set(key, data.access_token);
@@ -63,7 +63,8 @@ export async function token ({
 				setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
 			}
 		} else {
-			throw new Error(`[${res.status}] ${data.error}: ${data.error_description}`);
+			const errorMsg = typeof data === "string" ? res.statusText : `${data?.error}: ${data?.error_description}`;
+			throw new Error(`[${res.status}] ${errorMsg}`);
 		}
 	} else {
 		result = structuredClone(tokens.get(key));

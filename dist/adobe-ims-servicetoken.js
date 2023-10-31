@@ -3,7 +3,7 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.1
+ * @version 3.0.2
  */
 import murmurHash3 from'murmurhash3js';const hash128 = murmurHash3.x64.hash128,
 	tokens = new Map();
@@ -58,7 +58,7 @@ async function token ({
 			};
 		}
 
-		const data = await res.json();
+		const data = res.ok ? await res.clone().json() : await res.clone().text();
 
 		if (res.ok) {
 			tokens.set(key, data.access_token);
@@ -68,7 +68,8 @@ async function token ({
 				setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
 			}
 		} else {
-			throw new Error(`[${res.status}] ${data.error}: ${data.error_description}`);
+			const errorMsg = typeof data === "string" ? res.statusText : `${data?.error}: ${data?.error_description}`;
+			throw new Error(`[${res.status}] ${errorMsg}`);
 		}
 	} else {
 		result = structuredClone(tokens.get(key));
