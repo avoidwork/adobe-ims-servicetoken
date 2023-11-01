@@ -1,4 +1,3 @@
-import terser from "@rollup/plugin-terser";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const pkg = require("./package.json");
@@ -10,18 +9,13 @@ const bannerLong = `/**
  * @license ${pkg.license}
  * @version ${pkg.version}
  */`;
-const bannerShort = `/*!
- ${year} ${pkg.author}
- @version ${pkg.version}
-*/`;
 const defaultOutBase = {compact: true, banner: bannerLong, name: pkg.name};
 const cjOutBase = {...defaultOutBase, compact: false, format: "cjs", exports: "named"};
 const esmOutBase = {...defaultOutBase, format: "esm"};
-const minOutBase = {banner: bannerShort, name: pkg.name, plugins: [terser()], sourcemap: true};
 
 export default [
 	{
-		input: "./src/ims.js",
+		input: "./src/token.js",
 		output: [
 			{
 				...cjOutBase,
@@ -30,11 +24,6 @@ export default [
 			{
 				...esmOutBase,
 				file: `dist/${pkg.name}.js`
-			},
-			{
-				...esmOutBase,
-				...minOutBase,
-				file: `dist/${pkg.name}.min.js`
 			}
 		]
 	}

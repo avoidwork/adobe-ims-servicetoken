@@ -1,18 +1,31 @@
-import murmurHash3 from "murmurhash3js";
 import FormData from "form-data";
+import {createHash} from "node:crypto";
+import {
+	BASE64,
+	CLIENT_ID,
+	CLIENT_SECRET,
+	CODE,
+	DEFAULT_GRANT_TYPE,
+	DEFAULT_URL,
+	EMPTY,
+	GRANT_TYPE,
+	JWT_TOKEN,
+	POST,
+	SHA1,
+	STRING
+} from "./constants.js";
 
-const hash128 = murmurHash3.x64.hash128,
-	tokens = new Map();
+const tokens = new Map();
 
 export async function token ({
-	url = "https://ims-na1.adobelogin.com/ims/token",
-	grant_type = "authorization_code",
-	client_id = "",
-	client_secret = "",
-	code = "",
-	jwt_token = ""
+	url = DEFAULT_URL,
+	grant_type = DEFAULT_GRANT_TYPE,
+	client_id = EMPTY,
+	client_secret = EMPTY,
+	code = EMPTY,
+	jwt_token = EMPTY
 } = {}) {
-	const key = hash128(`${url}|${client_id}|${grant_type}`);
+	const key = createHash(SHA1).update(`${url}|${client_id}|${grant_type}`).digest(BASE64);
 	let result;
 
 	if (tokens.has(key) === false) {
@@ -20,23 +33,23 @@ export async function token ({
 		let res;
 
 		if (grant_type.length > 0) {
-			form.append("grant_type", grant_type);
+			form.append(GRANT_TYPE, grant_type);
 		}
 
-		form.append("client_id", client_id);
-		form.append("client_secret", client_secret);
+		form.append(CLIENT_ID, client_id);
+		form.append(CLIENT_SECRET, client_secret);
 
 		if (code.length > 0) {
-			form.append("code", code);
+			form.append(CODE, code);
 		}
 
 		if (jwt_token.length > 0) {
-			form.append("jwt_token", jwt_token);
+			form.append(JWT_TOKEN, jwt_token);
 		}
 
 		try {
 			res = await fetch(url, {
-				method: "POST",
+				method: POST,
 				headers: form.getHeaders(),
 				body: form
 			});
@@ -54,9 +67,9 @@ export async function token ({
 			};
 		}
 
-		const data = res.ok ? await res.clone().json() : await res.clone().text();
-
 		if (res.ok) {
+			const data = await res.clone().json();
+
 			tokens.set(key, data.access_token);
 			result = structuredClone(data.access_token);
 
@@ -64,7 +77,15 @@ export async function token ({
 				setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
 			}
 		} else {
-			const errorMsg = typeof data === "string" ? res.statusText : `${data?.error}: ${data?.error_description}`;
+			let data;
+
+			try {
+				data = await res.clone().json();
+			} catch (err) {
+				data = await res.clone().text();
+			}
+
+			const errorMsg = typeof data === STRING ? res.statusText : `${data?.error}: ${data?.error_description}`;
 			throw new Error(`[${res.status}] ${errorMsg}`);
 		}
 	} else {
