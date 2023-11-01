@@ -1,6 +1,6 @@
 {
   "name": "adobe-ims-servicetoken",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Adobe IMS Service Token lifecycle management",
   "source": "src/ims.js",
   "main": "dist/adobe-ims-servicetoken.cjs",
@@ -40,9 +40,6 @@
   ],
   "author": "Jason Mulligan <jason.mulligan@avoidwork.com>",
   "license": "BSD-3-Clause",
-  "dependencies": {
-    "form-data": "^4.0.0"
-  },
   "devDependencies": {
     "@types/node": "^20.8.10",
     "auto-changelog": "^2.4.0",

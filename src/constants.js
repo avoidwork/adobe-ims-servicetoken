@@ -1,10 +1,13 @@
+export const AMPERSAND = "&";
 export const BASE64 = "base64";
 export const CLIENT_ID = "client_id";
 export const CLIENT_SECRET = "client_secret";
 export const CODE = "code";
+export const CONTENT_TYPE = "content-type";
 export const DEFAULT_GRANT_TYPE = "authorization_code";
 export const DEFAULT_URL = "https://ims-na1.adobelogin.com/ims/token";
 export const EMPTY = "";
+export const FORM_URLENCODED = "application/x-www-form-urlencoded";
 export const GRANT_TYPE = "grant_type";
 export const JWT_TOKEN = "jwt_token";
 export const POST = "POST";

@@ -1,13 +1,15 @@
-import FormData from "form-data";
 import {createHash} from "node:crypto";
 import {
+	AMPERSAND,
 	BASE64,
 	CLIENT_ID,
 	CLIENT_SECRET,
 	CODE,
+	CONTENT_TYPE,
 	DEFAULT_GRANT_TYPE,
 	DEFAULT_URL,
 	EMPTY,
+	FORM_URLENCODED,
 	GRANT_TYPE,
 	JWT_TOKEN,
 	POST,
@@ -29,29 +31,31 @@ export async function token ({
 	let result;
 
 	if (tokens.has(key) === false) {
-		const form = new FormData();
+		const body = [
+			`${CLIENT_ID}=${client_id}`,
+			`${CLIENT_SECRET}=${client_secret}`
+		];
 		let res;
 
 		if (grant_type.length > 0) {
-			form.append(GRANT_TYPE, grant_type);
+			body.push(`${GRANT_TYPE}=${grant_type}`);
 		}
 
-		form.append(CLIENT_ID, client_id);
-		form.append(CLIENT_SECRET, client_secret);
-
 		if (code.length > 0) {
-			form.append(CODE, code);
+			body.push(`${CODE}=${code}`);
 		}
 
 		if (jwt_token.length > 0) {
-			form.append(JWT_TOKEN, jwt_token);
+			body.push(`${JWT_TOKEN}=${jwt_token}`);
 		}
 
 		try {
 			res = await fetch(url, {
 				method: POST,
-				headers: form.getHeaders(),
-				body: form
+				headers: {
+					[CONTENT_TYPE]: FORM_URLENCODED
+				},
+				body: body.join(AMPERSAND)
 			});
 		} catch (err) {
 			res = {

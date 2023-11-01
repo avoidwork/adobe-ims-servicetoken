@@ -3,15 +3,18 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.4
+ * @version 3.0.5
  */
-import FormData from'form-data';import {createHash}from'node:crypto';const BASE64 = "base64";
+import {createHash}from'node:crypto';const AMPERSAND = "&";
+const BASE64 = "base64";
 const CLIENT_ID = "client_id";
 const CLIENT_SECRET = "client_secret";
 const CODE = "code";
+const CONTENT_TYPE = "content-type";
 const DEFAULT_GRANT_TYPE = "authorization_code";
 const DEFAULT_URL = "https://ims-na1.adobelogin.com/ims/token";
 const EMPTY = "";
+const FORM_URLENCODED = "application/x-www-form-urlencoded";
 const GRANT_TYPE = "grant_type";
 const JWT_TOKEN = "jwt_token";
 const POST = "POST";
@@ -30,29 +33,31 @@ async function token ({
 	let result;
 
 	if (tokens.has(key) === false) {
-		const form = new FormData();
+		const body = [
+			`${CLIENT_ID}=${client_id}`,
+			`${CLIENT_SECRET}=${client_secret}`
+		];
 		let res;
 
 		if (grant_type.length > 0) {
-			form.append(GRANT_TYPE, grant_type);
+			body.push(`${GRANT_TYPE}=${grant_type}`);
 		}
 
-		form.append(CLIENT_ID, client_id);
-		form.append(CLIENT_SECRET, client_secret);
-
 		if (code.length > 0) {
-			form.append(CODE, code);
+			body.push(`${CODE}=${code}`);
 		}
 
 		if (jwt_token.length > 0) {
-			form.append(JWT_TOKEN, jwt_token);
+			body.push(`${JWT_TOKEN}=${jwt_token}`);
 		}
 
 		try {
 			res = await fetch(url, {
 				method: POST,
-				headers: form.getHeaders(),
-				body: form
+				headers: {
+					[CONTENT_TYPE]: FORM_URLENCODED
+				},
+				body: body.join(AMPERSAND)
 			});
 		} catch (err) {
 			res = {
