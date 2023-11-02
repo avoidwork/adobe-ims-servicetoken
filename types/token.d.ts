@@ -5,4 +5,4 @@ export function token({ url, grant_type, client_id, client_secret, code, jwt_tok
     client_secret?: string;
     code?: string;
     jwt_token?: string;
-}): Promise<any>;
+}): Promise<string | undefined>;

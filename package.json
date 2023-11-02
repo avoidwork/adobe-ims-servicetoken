@@ -1,10 +1,11 @@
 {
   "name": "adobe-ims-servicetoken",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Adobe IMS Service Token lifecycle management",
   "source": "src/ims.js",
   "main": "dist/adobe-ims-servicetoken.cjs",
   "exports": {
+    "types": "./types/token.d.ts",
     "import": "./dist/adobe-ims-servicetoken.js",
     "require": "./dist/adobe-ims-servicetoken.cjs"
   },
@@ -22,7 +23,7 @@
     "lint": "eslint *.js src/*.js",
     "rollup": "rollup --config",
     "test": "npm run lint",
-    "types": "npx -p typescript tsc src/token.js --declaration --allowJs --emitDeclarationOnly --outDir types",
+    "types": "npx -p typescript tsc src/token.js --declaration --allowJs --emitDeclarationOnly --outDir types && rm types/constants.d.ts",
     "prepare": "husky install"
   },
   "repository": {
