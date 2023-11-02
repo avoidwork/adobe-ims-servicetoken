@@ -1,6 +1,6 @@
 {
   "name": "adobe-ims-servicetoken",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "Adobe IMS Service Token lifecycle management",
   "source": "src/ims.js",
   "main": "dist/adobe-ims-servicetoken.cjs",
@@ -10,7 +10,7 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=16.14.2"
+    "node": ">=6"
   },
   "files": [
     "dist",
@@ -47,5 +47,8 @@
     "husky": "^8.0.3",
     "rollup": "^4.2.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "cross-fetch": "^4.0.0"
   }
 }

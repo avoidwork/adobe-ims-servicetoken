@@ -1,4 +1,5 @@
 import {createHash} from "node:crypto";
+import fetch from "cross-fetch";
 import {
 	AMPERSAND,
 	BASE64,
