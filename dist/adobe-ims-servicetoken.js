@@ -5,7 +5,7 @@
  * @license BSD-3-Clause
  * @version 3.0.8
  */
-import {createHash}from'node:crypto';import fetch from'node-fetch';const AMPERSAND = "&";
+import {createHash}from'node:crypto';const AMPERSAND = "&";
 const BASE64 = "base64";
 const CLIENT_ID = "client_id";
 const CLIENT_SECRET = "client_secret";
@@ -20,6 +20,7 @@ const JWT_TOKEN = "jwt_token";
 const POST = "POST";
 const SHA1 = "sha1";
 const STRING = "string";const tokens = new Map();
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args)); // eslint-disable-line no-shadow
 
 async function token ({
 	url = DEFAULT_URL,

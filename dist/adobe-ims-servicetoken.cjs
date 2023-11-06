@@ -8,7 +8,6 @@
 'use strict';
 
 var node_crypto = require('node:crypto');
-var fetch = require('node-fetch');
 
 const AMPERSAND = "&";
 const BASE64 = "base64";
@@ -27,6 +26,7 @@ const SHA1 = "sha1";
 const STRING = "string";
 
 const tokens = new Map();
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args)); // eslint-disable-line no-shadow
 
 async function token ({
 	url = DEFAULT_URL,

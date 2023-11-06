@@ -1,5 +1,4 @@
 import {createHash} from "node:crypto";
-import fetch from "node-fetch";
 import {
 	AMPERSAND,
 	BASE64,
@@ -19,6 +18,7 @@ import {
 } from "./constants.js";
 
 const tokens = new Map();
+const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args)); // eslint-disable-line no-shadow
 
 export async function token ({
 	url = DEFAULT_URL,
