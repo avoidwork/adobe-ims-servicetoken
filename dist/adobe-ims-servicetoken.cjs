@@ -3,12 +3,12 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.7
+ * @version 3.0.8
  */
 'use strict';
 
 var node_crypto = require('node:crypto');
-var fetch = require('cross-fetch');
+var fetch = require('node-fetch');
 
 const AMPERSAND = "&";
 const BASE64 = "base64";
