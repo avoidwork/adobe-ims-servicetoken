@@ -3,7 +3,7 @@
  *
  * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.8
+ * @version 3.0.9
  */
 import {createHash}from'node:crypto';const AMPERSAND = "&";
 const BASE64 = "base64";
