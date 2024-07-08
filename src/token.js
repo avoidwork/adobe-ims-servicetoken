@@ -1,4 +1,4 @@
-import {createHash} from "node:crypto";
+import {createHash} from "crypto";
 import {
 	AMPERSAND,
 	BASE64,
@@ -10,6 +10,7 @@ import {
 	DEFAULT_URL,
 	EMPTY,
 	FORM_URLENCODED,
+	FUNCTION,
 	GRANT_TYPE,
 	JWT_TOKEN,
 	POST,
@@ -19,6 +20,7 @@ import {
 
 const tokens = new Map();
 const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args)); // eslint-disable-line no-shadow
+const clone = typeof structuredClone === FUNCTION ? structuredClone : arg => JSON.parse(JSON.stringify(arg));
 
 export async function token ({
 	url = DEFAULT_URL,
@@ -76,7 +78,7 @@ export async function token ({
 			const data = await res.clone().json();
 
 			tokens.set(key, data.access_token);
-			result = structuredClone(data.access_token);
+			result = clone(data.access_token);
 
 			if (data.expires_in !== void 0) {
 				setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
@@ -94,7 +96,7 @@ export async function token ({
 			throw new Error(`[${res.status}] ${errorMsg}`);
 		}
 	} else {
-		result = structuredClone(tokens.get(key));
+		result = clone(tokens.get(key));
 	}
 
 	return result;

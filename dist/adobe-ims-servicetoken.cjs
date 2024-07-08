@@ -1,13 +1,13 @@
 /**
  * adobe-ims-servicetoken
  *
- * @copyright 2023 Jason Mulligan <jason.mulligan@avoidwork.com>
+ * @copyright 2024 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.9
+ * @version 3.0.10
  */
 'use strict';
 
-var node_crypto = require('node:crypto');
+var crypto = require('crypto');
 
 const AMPERSAND = "&";
 const BASE64 = "base64";
@@ -24,9 +24,11 @@ const JWT_TOKEN = "jwt_token";
 const POST = "POST";
 const SHA1 = "sha1";
 const STRING = "string";
+const FUNCTION = "function";
 
 const tokens = new Map();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args)); // eslint-disable-line no-shadow
+const clone = typeof structuredClone === FUNCTION ? structuredClone : arg => JSON.parse(JSON.stringify(arg));
 
 async function token ({
 	url = DEFAULT_URL,
@@ -36,7 +38,7 @@ async function token ({
 	code = EMPTY,
 	jwt_token = EMPTY
 } = {}) {
-	const key = node_crypto.createHash(SHA1).update(`${url}|${client_id}|${grant_type}`).digest(BASE64);
+	const key = crypto.createHash(SHA1).update(`${url}|${client_id}|${grant_type}`).digest(BASE64);
 	let result;
 
 	if (tokens.has(key) === false) {
@@ -84,7 +86,7 @@ async function token ({
 			const data = await res.clone().json();
 
 			tokens.set(key, data.access_token);
-			result = structuredClone(data.access_token);
+			result = clone(data.access_token);
 
 			if (data.expires_in !== void 0) {
 				setTimeout(() => tokens.delete(key), data.expires_in); // 24hr validity at time of dev
@@ -102,7 +104,7 @@ async function token ({
 			throw new Error(`[${res.status}] ${errorMsg}`);
 		}
 	} else {
-		result = structuredClone(tokens.get(key));
+		result = clone(tokens.get(key));
 	}
 
 	return result;

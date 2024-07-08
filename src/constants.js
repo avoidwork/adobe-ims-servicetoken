@@ -13,3 +13,4 @@ export const JWT_TOKEN = "jwt_token";
 export const POST = "POST";
 export const SHA1 = "sha1";
 export const STRING = "string";
+export const FUNCTION = "function";
