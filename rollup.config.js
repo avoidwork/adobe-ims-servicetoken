@@ -25,6 +25,10 @@ export default [
 				...esmOutBase,
 				file: `dist/${pkg.name}.js`
 			}
+		],
+		external: [
+			"crypto",
+			"node-fetch"
 		]
 	}
 ];

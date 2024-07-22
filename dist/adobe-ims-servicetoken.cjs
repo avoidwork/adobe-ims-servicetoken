@@ -3,7 +3,7 @@
  *
  * @copyright 2024 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.0.10
+ * @version 3.0.11
  */
 'use strict';
 
@@ -97,7 +97,7 @@ async function token ({
 			try {
 				data = await res.clone().json();
 			} catch (err) {
-				data = await res.clone().text();
+				data = await res.clone().text() ?? err.message ?? err;
 			}
 
 			const errorMsg = typeof data === STRING ? res.statusText : `${data?.error}: ${data?.error_description}`;
